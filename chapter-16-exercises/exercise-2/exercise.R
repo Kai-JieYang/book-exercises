@@ -34,30 +34,37 @@ library("ggplot2")
 ## Scales
 
 # Draw a "boxplot" (with `geom_boxplot`) for the diamond's price (y) by color (x)
-
+ggplot(diamonds, mapping = aes(x=color, y=price))+
+    geom_boxplot()
 
 # This has a lot of outliers, making it harder to read. To fix this, draw the 
 # same plot but with a _logarithmic_ scale for the y axis.
-
-
+ggplot(diamonds, mapping = aes(x=color, y=price))+
+    geom_boxplot()+
+    scale_y_log10()
 # For another version, draw the same plot but with `violin` geometry instead of 
 # `boxplot` geometry!
 # How does the logarithmic scale change the data presentation?
-
+ggplot(diamonds, mapping = aes(x=color, y=log(price)))+
+    geom_violin()
 
 # Another interesting plot: draw a plot of the diamonds price (y) by carat (x), 
 # using a heatmap of 2d bins (geom_bin2d)
 # What happens when you make the x and y channels scale logarithmically?
-
+ggplot(diamonds, mapping = aes(x=log(carat), y=log(price)))+
+    geom_bin2d()
 
 # Draw a scatter plot for the diamonds price (y) by carat (x). Color each point
 # by the clarity (Remember, this will take a while. Use a sample of the diamonds 
 # for faster results)
-
+ggplot(diamonds)+
+    geom_point(mapping = aes(x=carat, y=price, color = clarity))
 
 # Change the color of the previous plot using a ColorBrewer scale of your choice. 
 # What looks nice?
-
+ggplot(diamonds)+
+    geom_point(mapping = aes(x=carat, y=price, color = clarity))+
+    scale_color_brewer(palette = "purples", direction = -1)
 
 
 ## Coordinate Systems
@@ -79,6 +86,9 @@ library("ggplot2")
 
 # Take the scatter plot of price by carat data (colored by clarity) and add 
 # _facets_ based on the diamond's `color`
+ggplot(data = diamond_sample)+
+    geom_point(mapping = aes(x=carat, y= price, color=clarity))+
+    facet_wrap(~clarity)
 
 
 

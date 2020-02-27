@@ -7,7 +7,16 @@ library("shiny")
 # Define a variable `intro_panel` for your first page. It should be a
 # `tabPanel()` with a title "Introduction" to represent the first tab.
 # This layout will contain the following elements:
-  
+intro_panel <- tabPanel(
+  title = "Introduction",
+  titlePanel("Income Inequality"),
+  p("The below diagram was created by the New York Times to illustrate the increasing level of inequality in the US."),
+  img(src = "inequality.png", alt = "Example NYT chart"),
+  p(
+    a(href="https://www.nytimes.com/interactive/2017/08/07/opinion/leonhardt-income-inequality.html","(source)")
+  )
+)  
+
   # A `titlePanel()` with the text "Income Inequality"
   
 
@@ -33,10 +42,20 @@ library("shiny")
 
 # Define a variable `sidebar_content` as a `sidebarPanel()` UI element
 # containing the following information:
-
+sidebar_cotent <- sidebarPanel(
+  sliderInput(inputId = "percentile", label = "Income Percentile",
+              min = 0, max =0, value = c(0,100))
+  )
   # A `sliderInput()` for the 'percentile' value, labeled "Income Percentile".
   # This slider should let the user pick a range between 0 and 100
+main_content<-mainPanel(
+  plotOutput(outputId = "plot"),
+)
 
+p(
+  "Data from",
+  a(href = "http://gabriel-zucman.eu/usdina/")
+)
 
 # Define a variable `main_content` as a `mainPanel()` UI element
 # containing the following information:
@@ -50,7 +69,11 @@ library("shiny")
 # Define a variable `growth_panel` for your second page. It should be a
 # `tabPanel()` with a title "Growth Chart" to represent the second tab.
 # This layout will contain the following elements:
-
+growth_panel <- tabPanel(
+  titlePanel( "Income growth 1980-2014"),
+  sidebarLayout(sidebar_cotent,
+                main_content)
+)
   # A `titlePanel()` with the text "Income growth 1980-2014"
   
 
@@ -68,4 +91,10 @@ library("shiny")
 # The layout should include the following elements:
 # - Your `intro_panel`
 # - Your `growth_panel`
+ui<-navbarPage(
+  title = "Income Inequality",
+  intro_panel,
+  growth_panel
+    
+)
 
